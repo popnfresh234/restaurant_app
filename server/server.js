@@ -18,7 +18,6 @@ app.use( '/api', indexRouter );
 
 // Error handling
 app.use( ( err, req, res, next ) => {
-  console.log( err.status );
   console.error( err.message ); // Log error message in our server's console
   res.send( `${err.status} Error: ${err.message}` );
 } );

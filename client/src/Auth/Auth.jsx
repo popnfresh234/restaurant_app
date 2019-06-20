@@ -3,6 +3,7 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 
+
 class Auth {
   accessToken;
 
@@ -18,6 +19,7 @@ class Auth {
     responseType: 'token id_token',
     scope: 'openid',
   } );
+
 
   constructor() {
     this.login = this.login.bind( this );
