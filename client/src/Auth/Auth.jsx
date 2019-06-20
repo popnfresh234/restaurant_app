@@ -17,7 +17,7 @@ class Auth {
     redirectUri: 'http://localhost:8080/callback',
     audience: 'https://testapi/api',
     responseType: 'token id_token',
-    scope: 'openid',
+    scope: 'openid profile email',
   } );
 
 
@@ -28,6 +28,7 @@ class Auth {
     this.isAuthenticated = this.isAuthenticated.bind( this );
     this.getAccessToken = this.getAccessToken.bind( this );
     this.getIdToken = this.getIdToken.bind( this );
+    this.getProfile = this.getProfile.bind( this );
     this.renewSession = this.renewSession.bind( this );
   }
 
@@ -38,6 +39,7 @@ class Auth {
   handleAuthentication() {
     this.auth0.parseHash( ( err, authResult ) => {
       if ( authResult && authResult.accessToken && authResult.idToken ) {
+        console.log( authResult );
         this.setSession( authResult );
       } else if ( err ) {
         history.replace( '/home' );
@@ -68,6 +70,16 @@ class Auth {
     history.replace( '/home' ); // This takes us away from callback route
   }
 
+  // Get user profile
+  getProfile( cb ) {
+    this.auth0.client.userInfo( this.accessToken, ( err, profile ) => {
+      if ( profile ) {
+        this.userProfile = profile;
+      }
+      cb( err, profile );
+    } );
+  }
+
   renewSession() {
     this.auth0.checkSession( {}, ( err, authResult ) => {
       if ( authResult && authResult.accessToken && authResult.idToken ) {
@@ -86,6 +98,9 @@ class Auth {
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
+
+    // Remove user profile
+    this.userProfile = null;
 
     // Remove isLoggedInFlag from local storage
     localStorage.removeItem( 'isLoggedIn' );

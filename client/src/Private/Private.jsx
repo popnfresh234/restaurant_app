@@ -12,10 +12,19 @@ class Private extends Component {
 
   componentDidMount() {
     const { auth } = this.props;
+    const { userPofile, getProfile } = auth;
+
+    if ( !userPofile ) {
+      getProfile( ( err, profile ) => {
+        console.log( profile );
+      } );
+    } else {
+      console.log( userPofile );
+    }
+
     const headers = { Authorization: `Bearer ${auth.getAccessToken()}` };
     axios.get( 'http://localhost:8081/api/private', { headers } )
       .then( ( result ) => {
-        console.log( result );
         this.setState( {
           result: result.data,
         } );
