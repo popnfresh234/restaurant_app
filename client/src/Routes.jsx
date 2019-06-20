@@ -6,6 +6,7 @@ import Home from './Home/Home.jsx';
 import Callback from './Callback/Callback.jsx';
 import Auth from './Auth/Auth.jsx';
 import Private from './Private/Private.jsx';
+import Public from './Public/Public.jsx';
 import history from './history';
 
 const auth = new Auth();
@@ -23,6 +24,8 @@ const makeMainRoutes = () => (
       <Route path="/" render={props => <App auth={auth} {...props} />} />
       <Route path="/home" render={props => <Home auth={auth} {...props} />} />
       <Route path="/private" render={props => <Private auth={auth} {...props} />} />
+      <Route path="/public" render={props => <Public auth={auth} {...props} />} />
+
       <Route
         path="/callback"
         render={( props ) => {

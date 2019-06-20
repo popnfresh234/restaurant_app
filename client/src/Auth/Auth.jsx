@@ -14,6 +14,7 @@ class Auth {
     domain: 'dev-cw44eng7.auth0.com',
     clientID: 'p2bOhPxIX5yIx4fjInmEeNvR7D5dgksi',
     redirectUri: 'http://localhost:8080/callback',
+    audience: 'https://testapi/api',
     responseType: 'token id_token',
     scope: 'openid',
   } );

@@ -58,6 +58,13 @@ class App extends Component {
             >
               Private
             </Button>
+            <Button
+              bsStyle="primary"
+              className="btn-margin"
+              onClick={this.goTo.bind( this, 'public' )}
+            >
+              Public
+            </Button>
             {
               !auth.isAuthenticated() && (
               <Button

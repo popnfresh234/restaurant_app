@@ -3,17 +3,34 @@ import axios from 'axios';
 
 
 class Private extends Component {
+  constructor( props ) {
+    super( props );
+    this.state = {
+      result: 'Private Route',
+    };
+  }
+
   componentDidMount() {
-    axios.get( 'http://localhost:8081/api/private' )
+    const { auth } = this.props;
+    const headers = { Authorization: `Bearer ${auth.getAccessToken()}` };
+    axios.get( 'http://localhost:8081/api/private', { headers } )
       .then( ( result ) => {
         console.log( result );
+        this.setState( {
+          result: result.data,
+        } );
+      } ).catch( ( err ) => {
+        console.log( err.message );
+        this.setState( {
+          result: err.message,
+        } );
       } );
   }
 
   render() {
     return (
       <div>
-        <h4>Test</h4>
+        <h4>{this.state.result}</h4>
       </div>
     );
   }
