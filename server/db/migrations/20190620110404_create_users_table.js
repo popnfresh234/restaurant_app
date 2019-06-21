@@ -2,7 +2,7 @@
 exports.up = function ( knex, Promise ) {
   return knex.schema.createTable( 'users', ( t ) => {
     t.increments( 'id' ).primary();
-    t.string( 'sub', 1000 );
+    t.string( 'sub', 1000 ).unique();
     t.string( 'name', 1000 );
     t.string( 'given_name', 1000 );
     t.string( 'family_name', 1000 );
@@ -25,11 +25,11 @@ exports.up = function ( knex, Promise ) {
 };
 
 exports.down = function ( knex, Promise ) {
-  return knex.schema.dropTable( 'users' );
+  return knex.schema.dropTableIfExists( 'users' );
 };
 
 
-// const authProfileSample = {
+// const userSchema = {
 //   sub: '248289761001',
 //   name: 'Jane Josephine Doe',
 //   given_name: 'Jane',
@@ -52,5 +52,4 @@ exports.down = function ( knex, Promise ) {
 //     country: 'us',
 //   },
 //   updated_at: '1556845729',
-
 // };
