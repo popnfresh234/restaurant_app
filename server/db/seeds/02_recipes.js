@@ -2,7 +2,7 @@
 exports.seed = function ( knex, Promise ) {
   // Deletes ALL existing entries
   return knex( 'recipes' ).del().then( () => knex.select( '*' )
-    .from( 'users' ).limit( 1 ) )
+    .from( 'users' ).limit( 3 ) )
     .then( result =>
       // Inserts seed entries
       knex( 'recipes' ).insert( [
@@ -24,7 +24,7 @@ exports.seed = function ( knex, Promise ) {
           duration: 12,
           image_url: 'pop',
           note: 'This is a note',
-          user_id: result[0].id,
+          user_id: result[1].id,
         },
         {
           name: 'A third Recipe',
@@ -34,7 +34,7 @@ exports.seed = function ( knex, Promise ) {
           duration: 12,
           image_url: 'pop',
           note: 'This is a note',
-          user_id: result[0].id,
+          user_id: result[2].id,
         },
       ] ) );
 };
