@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Router, Redirect } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './Home/Home.jsx';
 import Callback from './Callback/Callback.jsx';
@@ -23,7 +23,16 @@ const makeMainRoutes = () => (
     <div>
       <Route path="/" render={props => <App auth={auth} {...props} />} />
       <Route path="/home" render={props => <Home auth={auth} {...props} />} />
-      <Route path="/private" render={props => <Private auth={auth} {...props} />} />
+      <Route
+        path="/private"
+        render={props => (
+          !auth.isAuthenticated() ? (
+            <Redirect to="/home" />
+          ) : (
+            <Private auth={auth} {...props} />
+          )
+        )}
+      />
       <Route path="/public" render={props => <Public auth={auth} {...props} />} />
 
       <Route

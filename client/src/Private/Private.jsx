@@ -6,40 +6,44 @@ class Private extends Component {
   constructor( props ) {
     super( props );
     this.state = {
-      result: 'Private Route',
+      profile: 'Private Route',
     };
   }
 
   componentDidMount() {
-    const { auth } = this.props;
-    const { userPofile, getProfile } = auth;
+    function handleProfile( auth, ctx, profile ) {
+      const headers = {
+        Authorization: `Bearer ${auth.getAccessToken()}`,
+      };
 
-    if ( !userPofile ) {
-      getProfile( ( err, profile ) => {
-        console.log( profile );
-      } );
-    } else {
-      console.log( userPofile );
+      axios.post( 'http://localhost:8081/api/private', profile, { headers } )
+        .then( ( response ) => {
+          ctx.setState( {
+            profile: response.data,
+          } );
+        } ).catch( ( err ) => {
+          console.log( err );
+        } );
     }
 
-    const headers = { Authorization: `Bearer ${auth.getAccessToken()}` };
-    axios.get( 'http://localhost:8081/api/private', { headers } )
-      .then( ( result ) => {
-        this.setState( {
-          result: result.data,
-        } );
-      } ).catch( ( err ) => {
-        console.log( err.message );
-        this.setState( {
-          result: err.message,
-        } );
+    const { auth } = this.props;
+    const { userProfile, getProfile } = auth;
+
+    if ( !userProfile ) {
+      getProfile( ( err, profile ) => {
+        handleProfile( auth, this, profile );
       } );
+    } else {
+      handleProfile( auth, this, userProfile );
+    }
   }
 
   render() {
+    const { profile } = this.state;
     return (
       <div>
-        <h4>{this.state.result}</h4>
+        <img src={profile.picture} />
+        <h4>{profile.name}</h4>
       </div>
     );
   }
