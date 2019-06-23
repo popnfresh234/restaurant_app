@@ -34,9 +34,7 @@ exports.seed = function ( knex, Promise ) {
         user_id: results[2].user_id,
         vote_flag: 1,
       },
-    ] ).catch( ( err ) => {
-      console.log( err );
-    } ) );
+    ] ) );
 };
 
 // Query for sum of votres for all recipes
