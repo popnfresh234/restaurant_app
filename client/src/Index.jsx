@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom';
+import React from 'react';
 import makeMainRoutes from './Routes.jsx';
+import Routes from './Routes.jsx';
 
 
-const routes = makeMainRoutes();
 ReactDOM.render(
-  routes,
+  <Routes />,
   document.getElementById( 'react-root' ),
 );

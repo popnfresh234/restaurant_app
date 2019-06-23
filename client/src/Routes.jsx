@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Route, Router, Redirect } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './Home/Home.jsx';
@@ -9,41 +9,55 @@ import Private from './Private/Private.jsx';
 import Public from './Public/Public.jsx';
 import history from './history';
 
-const auth = new Auth();
-
-const handleAuthentication = ( nextState, replace ) => {
-  if ( /access_token|id_token|error/.test( nextState.location.hash ) ) {
-    auth.handleAuthentication();
+class Routes extends Component {
+  constructor( props ) {
+    super( props );
+    this.auth = new Auth();
+    this.handleAuthentication = this.handleAuthentication.bind( this );
   }
-};
 
 
-const makeMainRoutes = () => (
-  <Router history={history}>
-    <div>
-      <Route path="/" render={props => <App auth={auth} {...props} />} />
-      <Route path="/home" render={props => <Home auth={auth} {...props} />} />
-      <Route
-        path="/private"
-        render={props => (
-          !auth.isAuthenticated() ? (
-            <Redirect to="/home" />
-          ) : (
-            <Private auth={auth} {...props} />
-          )
-        )}
-      />
-      <Route path="/public" render={props => <Public auth={auth} {...props} />} />
+  handleAuthentication = ( nextState, replace ) => {
+    if ( /access_token|id_token|error/.test( nextState.location.hash ) ) {
+      this.auth.handleAuthentication();
+    }
+  };
 
-      <Route
-        path="/callback"
-        render={( props ) => {
-          handleAuthentication( props );
-          return <Callback {...props} />;
-        }}
-      />
-    </div>
-  </Router>
-);
 
-export default makeMainRoutes;
+  render() {
+    return (
+      <Router history={history}>
+        <div>
+          <Route
+            path="/"
+            render={props => <App auth={this.auth} {...props} />}
+          />
+          <Route
+            path="/home"
+            render={props => <Home auth={this.auth} {...props} />}
+          />
+          <Route
+            path="/private"
+            render={props => (
+
+              <Private auth={this.auth} {...props} />
+
+            )}
+          />
+          <Route path="/public" render={props => <Public auth={this.auth} {...props} />} />
+
+          <Route
+            path="/callback"
+            render={( props ) => {
+              this.handleAuthentication( props );
+              return <Callback {...props} />;
+            }}
+          />
+        </div>
+      </Router>
+    );
+  }
+}
+
+
+export default Routes;

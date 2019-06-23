@@ -43,8 +43,6 @@ class Auth {
       } else if ( err ) {
         history.replace( '/home' );
         console.log( err );
-        // eslint-disable-next-line no-alert
-        alert( `Error: ${err.error}. Check the console for further details.` );
       }
     } );
   }
@@ -66,7 +64,7 @@ class Auth {
     this.expiresAt = expiresAt;
 
     // navigate to the home route
-    history.replace( '/home' ); // This takes us away from callback route
+    history.replace( '/private' ); // This takes us away from callback route
   }
 
   // Get user profile
@@ -86,8 +84,6 @@ class Auth {
       } else if ( err ) {
         this.logout();
         console.log( err );
-        // eslint-disable-next-line no-alert
-        alert( `Could not get a new token (${err.error}: ${err.error_description}). See console` );
       }
     } );
   }

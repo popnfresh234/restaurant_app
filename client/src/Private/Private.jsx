@@ -6,7 +6,7 @@ class Private extends Component {
   constructor( props ) {
     super( props );
     this.state = {
-      profile: 'Private Route',
+      profile: {},
     };
   }
 
@@ -29,22 +29,28 @@ class Private extends Component {
     const { auth } = this.props;
     const { userProfile, getProfile } = auth;
 
-    if ( !userProfile ) {
-      getProfile( ( err, profile ) => {
-        handleProfile( auth, this, profile );
-      } );
-    } else {
-      handleProfile( auth, this, userProfile );
+    if ( auth.isAuthenticated() ) {
+      if ( !userProfile ) {
+        getProfile( ( err, profile ) => {
+          handleProfile( auth, this, profile );
+        } );
+      } else {
+        handleProfile( auth, this, userProfile );
+      }
     }
   }
 
   render() {
-    const { profile } = this.state;
     return (
-      <div>
-        <img src={profile.picture} />
-        <h4>{profile.name}</h4>
-      </div>
+      this.props.auth.isAuthenticated() ? (
+        <div>
+          <img src={this.state.profile.picture} />
+          <h4>{this.state.profile.name}</h4>
+        </div>
+      ) : (
+        <h4>This is a private route</h4>
+      )
+
     );
   }
 }
