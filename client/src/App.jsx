@@ -29,8 +29,6 @@ class App extends Component {
 
     };
     this.unlisten = this.props.history.listen( ( location, action ) => {
-      console.log( 'on route change' );
-      console.log( location );
       const fn = lookup[location.pathname];
       if ( fn ) {
         this.setState( {
